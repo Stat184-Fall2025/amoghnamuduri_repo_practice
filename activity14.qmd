@@ -3,6 +3,7 @@ title: "Activity 14: Data Wrangling, Visualization, and Reflection"
 author: "Amogh Krishna Namuduri"
 date: "11/16/2027"
 format: pdf
+execute: true
 ---
 
 # Armed Forces Data Wrangling Redux
@@ -278,3 +279,4 @@ ggplot(data.frame(x = x_vals, volume = vol_vals), aes(x, volume)) +
   theme_minimal()
 
 ```
+
