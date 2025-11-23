@@ -50,6 +50,8 @@ header_row
 
 Chunk 5
 
+I used clean_names() function from the janitor package. This makes the spaces into underscores. But in some cases renaming was required. 
+
 ```{r}
 cleaned <- armed_raw %>%
   clean_names()
@@ -88,6 +90,8 @@ cleaned <- armed_raw %>%
 ## Data wrangling
 
 Chunk 7
+
+I used the pivot_longer() function to reshape the data converting the dataset from a wide format to a long format. In this chunk I also filtered only numeric values leaving the NA columns.
 
 ```{r}
 group_df <- cleaned |>
@@ -279,4 +283,5 @@ ggplot(data.frame(x = x_vals, volume = vol_vals), aes(x, volume)) +
   theme_minimal()
 
 ```
+
 
