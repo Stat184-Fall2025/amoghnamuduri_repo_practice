@@ -1,0 +1,280 @@
+---
+title: "Activity 14: Data Wrangling, Visualization, and Reflection"
+author: "Amogh Krishna Namuduri"
+date: "11/16/2027"
+format: pdf
+---
+
+# Armed Forces Data Wrangling Redux
+
+## Load packages
+
+Chunk 1
+
+```{r}
+# Load required packages 
+library(tidyverse) 
+library(janitor) 
+library(readxl) 
+```
+
+## Load the data
+
+Chunk 2
+
+```{r}
+# Load the Armed Forces data set
+armed_raw <- read_excel("US_Armed_Forces_(6_2025).xlsx", skip = 1)
+```
+
+## View armed_raw
+
+Chunk 3
+
+```{r}
+# View head of armed_raw data
+head(armed_raw)
+```
+
+## Extract header row and view it
+
+Chunk 4
+
+```{r}
+header_row <- read_excel("US_Armed_Forces_(6_2025).xlsx", n_max = 1)
+header_row
+```
+
+## Clean names
+
+Chunk 5
+
+```{r}
+cleaned <- armed_raw %>%
+  clean_names()
+names(cleaned)
+```
+
+## Rename column names
+
+Chunk 6
+
+```{r}
+cleaned <- armed_raw %>%
+  clean_names() %>%
+  rename(
+    pay_grade = x1,
+    army_male = army,
+    army_female = x3,
+    army_total = x4,
+    navy_male = navy,
+    navy_female = x6,
+    navy_total = x7,
+    marine_male = marine_corps,
+    marine_female = x9,
+    marine_total = x10,
+    airforce_male = air_force,
+    airforce_female = x12,
+    airforce_total = x13,
+    space_male = space_force,
+    space_female = x15,
+    space_total = x16,
+    total_overall = total
+)
+
+```
+
+## Data wrangling
+
+Chunk 7
+
+```{r}
+group_df <- cleaned |>
+  select(pay_grade, matches("_(male|female|total)$")) |>
+  pivot_longer(
+    cols = -pay_grade,
+    names_to = c("branch", "gender"),
+    names_sep = "_",
+    values_to = "count"
+  ) |>
+  filter(gender != "total") |>
+  mutate(count = as.numeric(count)) |>
+  filter(!is.na(count))
+```
+
+## Final data set
+
+Chunk 8
+
+```{r}
+head(group_df)
+```
+
+# Baby Names Visualization
+
+For the names I chose Michael and Emily, they are among the most consistently popular names in the US. I can get a trend using these 2 names which would allow me to explore the long-term popularity and compare how the trends have changed for male and female names. The plot I choose is Line plot, this is because it will give us a comparison of the trend between the 2 names from 1880 to the present.
+
+Chunk 9
+
+```{r}
+library(babynames)
+library(dplyr)
+library(ggplot2)
+selected_names <- babynames %>%
+  filter(name %in% c("Michael", "Emily"))
+ggplot(selected_names, aes(x = year, y = n, color = name)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Popularity of Michael and Emily Over Time",
+    x = "Year",
+    y = "Number of Babies",
+    color = "Name"
+    ) +
+    theme_minimal()
+```
+
+# Plotting a Mathematical Function
+
+For calculating the volume of a box with respect to the side length that is cut out, we will have to use the below function
+
+V(x) = x \* (30-2x) \* (20-2x)
+
+The code below is for the plot that shows how the Volume is affected when the value of x increases
+
+Chunk 10
+
+```{r}
+# Define the volume function
+volume <- function(x) {
+  x * (30 - 2*x) * (20 - 2*x)
+}
+# Create a sequence of x values from 0 to 10
+x_vals <- seq(0, 10, length.out = 300)
+vol_vals <- volume(x_vals)
+# Plot
+library(ggplot2)
+ggplot(data.frame(x = x_vals, volume = vol_vals), aes(x, volume)) +
+  geom_line(color = "steelblue", linewidth = 1.3) +
+  labs(
+    title = "Box Volume as a Function of Cut Size x",
+    x = "Cut Size (x)",
+    y = "Volume"
+  ) +
+  theme_minimal()
+
+```
+
+# What I feel I have learned
+
+I have learnt that there are many things to take into consideration when we want to make our code or work open to all and reproducible, such as it should be able to run on anyone's workstation. Based on learning in R, I have learnt that it is best to keep rechecking your code so that it follows all the steps of data wrangling so that we get the best output. I have learnt how to use clean_name() and uncount() in a proper sense. I have come from a state of understnading the code I am using to writing it part by part by myself.
+
+# Code Appendix
+
+```{r}
+# Load required packages 
+library(tidyverse) 
+library(janitor) 
+library(readxl) 
+```
+
+```{r}
+# Load the Armed Forces dataset
+armed_raw <- read_excel("US_Armed_Forces_(6_2025).xlsx", skip = 1)
+```
+
+```{r}
+# View head of armed_raw data
+head(armed_raw)
+```
+
+```{r}
+header_row <- read_excel("US_Armed_Forces_(6_2025).xlsx", n_max = 1)
+header_row
+```
+
+```{r}
+cleaned <- armed_raw %>%
+  clean_names()
+names(cleaned)
+```
+
+```{r}
+cleaned <- armed_raw %>%
+  clean_names() %>%
+  rename(
+    pay_grade = x1,
+    army_male = army,
+    army_female = x3,
+    army_total = x4,
+    navy_male = navy,
+    navy_female = x6,
+    navy_total = x7,
+    marine_male = marine_corps,
+    marine_female = x9,
+    marine_total = x10,
+    airforce_male = air_force,
+    airforce_female = x12,
+    airforce_total = x13,
+    space_male = space_force,
+    space_female = x15,
+    space_total = x16,
+    total_overall = total
+)
+
+```
+
+```{r}
+group_df <- cleaned |>
+  select(pay_grade, matches("_(male|female|total)$")) |>
+  pivot_longer(
+    cols = -pay_grade,
+    names_to = c("branch", "gender"),
+    names_sep = "_",
+    values_to = "count"
+  ) |>
+  filter(gender != "total") |>
+  mutate(count = as.numeric(count)) |>
+  filter(!is.na(count))
+```
+
+```{r}
+head(group_df)
+```
+
+```{r}
+library(babynames)
+library(dplyr)
+library(ggplot2)
+selected_names <- babynames %>%
+  filter(name %in% c("Michael", "Emily"))
+ggplot(selected_names, aes(x = year, y = n, color = name)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Popularity of Michael and Emily Over Time",
+    x = "Year",
+    y = "Number of Babies",
+    color = "Name"
+    ) +
+    theme_minimal()
+```
+
+```{r}
+# Define the volume function
+volume <- function(x) {
+  x * (30 - 2*x) * (20 - 2*x)
+}
+# Create a sequence of x values from 0 to 10
+x_vals <- seq(0, 10, length.out = 300)
+vol_vals <- volume(x_vals)
+# Plot
+library(ggplot2)
+ggplot(data.frame(x = x_vals, volume = vol_vals), aes(x, volume)) +
+  geom_line(color = "steelblue", linewidth = 1.3) +
+  labs(
+    title = "Box Volume as a Function of Cut Size x",
+    x = "Cut Size (x)",
+    y = "Volume"
+  ) +
+  theme_minimal()
+
+```
