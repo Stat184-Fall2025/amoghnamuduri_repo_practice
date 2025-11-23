@@ -24,6 +24,8 @@ library(readxl)
 Chunk 2
 
 ```{r}
+#| echo: true
+#| warning: false
 # Load the Armed Forces data set
 armed_raw <- read_excel("US_Armed_Forces_(6_2025).xlsx", skip = 1)
 ```
@@ -49,7 +51,8 @@ header_row
 ## Clean names
 
 Chunk 5
-
+#| echo: true
+#| message: false
 I used clean_names() function from the janitor package. This makes the spaces into underscores. But in some cases renaming was required. 
 
 ```{r}
@@ -90,7 +93,8 @@ cleaned <- armed_raw %>%
 ## Data wrangling
 
 Chunk 7
-
+#| echo: true
+#| warning: false
 I used the pivot_longer() function to reshape the data converting the dataset from a wide format to a long format. In this chunk I also filtered only numeric values leaving the NA columns.
 
 ```{r}
@@ -122,6 +126,10 @@ For the names I chose Michael and Emily, they are among the most consistently po
 Chunk 9
 
 ```{r}
+#| fig-cap: "Popularity of Emma and Liam vs Time"
+#| fig-pos: "H"
+#| fig-width: 5
+#| fig-alt: "Line chart showing the popularity of the baby names Emma and Liam in the United States over time. Both names rise sharply in popularity after 2000."
 library(babynames)
 library(dplyr)
 library(ggplot2)
@@ -149,6 +157,9 @@ The code below is for the plot that shows how the Volume is affected when the va
 Chunk 10
 
 ```{r}
+#| fig-cap: "Plot of Volume vs Cut-Out Length"
+#| fig-pos: "H"
+#| fig-alt: "A line graph showing box volume versus cut-out side length. A blue curve rises from 0, peaks around x = 7 with volume around 5250, then declines back toward 0 as x continues to increase."
 # Define the volume function
 volume <- function(x) {
   x * (30 - 2*x) * (20 - 2*x)
@@ -283,5 +294,6 @@ ggplot(data.frame(x = x_vals, volume = vol_vals), aes(x, volume)) +
   theme_minimal()
 
 ```
+
 
 
