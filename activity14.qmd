@@ -17,6 +17,7 @@ Chunk 1
 library(tidyverse) 
 library(janitor) 
 library(readxl) 
+
 ```
 
 ## Load the data
@@ -25,7 +26,9 @@ Chunk 2
 
 ```{r}
 # Load the Armed Forces data set
+# This file can be accessed on "https://docs.google.com/spreadsheets/d/1cn4i0-ymB1ZytWXCwsJiq6fZ9PhGLUvbMBHlzqG4bwo/edit?usp=sharing"
 armed_raw <- read_excel("US_Armed_Forces_(6_2025).xlsx", skip = 1)
+
 ```
 
 ## View armed_raw
@@ -35,6 +38,7 @@ Chunk 3
 ```{r}
 # View head of armed_raw data
 head(armed_raw)
+
 ```
 
 ## Extract header row and view it
@@ -44,6 +48,7 @@ Chunk 4
 ```{r}
 header_row <- read_excel("US_Armed_Forces_(6_2025).xlsx", n_max = 1)
 header_row
+
 ```
 
 ## Clean names
@@ -56,6 +61,7 @@ I used clean_names() function from the janitor package. This makes the spaces in
 cleaned <- armed_raw %>%
   clean_names()
 names(cleaned)
+
 ```
 
 ## Rename column names
@@ -105,6 +111,7 @@ group_df <- cleaned |>
   filter(gender != "total") |>
   mutate(count = as.numeric(count)) |>
   filter(!is.na(count))
+
 ```
 
 ## Final data set
@@ -115,6 +122,7 @@ Chunk 8
 # Create a clean frequency-style table from group_df
 #| fig-pos: "H"
 #| fig-width: 5
+#| fig-alt: "The table shows the reshaped data in the columns of Pay Grade, Branch, Gender and Count"
 present_df <- group_df |>
   rename(
     Pay_Grade = pay_grade,
@@ -124,6 +132,7 @@ present_df <- group_df |>
   )
 
 kable(present_df, caption = "Reshaped Data: Pay Grade × Branch × Gender")
+
 ```
 
 # Baby Names Visualization
@@ -135,7 +144,7 @@ Chunk 9
 ```{r}
 #| fig-pos: "H"
 #| fig-width: 10
-
+#| fig-cap: "The plot shows us the Popularity of the names Michael and Emily over time"
 library(babynames)
 library(dplyr)
 library(ggplot2)
@@ -151,6 +160,7 @@ ggplot(selected_names, aes(x = year, y = n, color = name, linetype = name, group
     linetype = "Name"
     ) +
     theme_minimal()
+
 ```
 
 # Plotting a Mathematical Function
@@ -165,6 +175,7 @@ Chunk 10
 
 ```{r}
 #| fig-pos: "R"
+#| fig-cap: "The plot shows how the Volume changes as the value of x changes"
 # Define the volume function
 volume <- function(x) {
   x * (30 - 2*x) * (20 - 2*x)
@@ -196,27 +207,32 @@ I have learnt that there are many things to take into consideration when we want
 library(tidyverse) 
 library(janitor) 
 library(readxl) 
+
 ```
 
 ```{r}
 # Load the Armed Forces dataset
 armed_raw <- read_excel("US_Armed_Forces_(6_2025).xlsx", skip = 1)
+
 ```
 
 ```{r}
 # View head of armed_raw data
 head(armed_raw)
+
 ```
 
 ```{r}
 header_row <- read_excel("US_Armed_Forces_(6_2025).xlsx", n_max = 1)
 header_row
+
 ```
 
 ```{r}
 cleaned <- armed_raw %>%
   clean_names()
 names(cleaned)
+
 ```
 
 ```{r}
@@ -256,12 +272,14 @@ group_df <- cleaned |>
   filter(gender != "total") |>
   mutate(count = as.numeric(count)) |>
   filter(!is.na(count))
+
 ```
 
 ```{r}
 # Create a clean frequency-style table from group_df
 #| fig-pos: "H"
 #| fig-width: 5
+#| fig-alt: "The table shows the reshaped data in the columns of Pay Grade, Branch, Gender and Count"
 
 present_df <- group_df |>
   rename(
@@ -272,11 +290,14 @@ present_df <- group_df |>
   )
 
 kable(present_df, caption = "Reshaped Data: Pay Grade × Branch × Gender")
+
 ```
 
 ```{r}
 #| fig-pos: "H"
 #| fig-width: 10
+#| fig-cap: "The plot shows us the Popularity of the names Michael and Emily over time"
+
 library(babynames)
 library(dplyr)
 library(ggplot2)
@@ -291,10 +312,13 @@ ggplot(selected_names, aes(x = year, y = n, color = name)) +
     color = "Name"
     ) +
     theme_minimal()
+
 ```
 
 ```{r}
 #| fig-pos: "R"
+#| fig-cap: "The plot shows how the Volume changes as the value of x changes"
+
 # Define the volume function
 volume <- function(x) {
   x * (30 - 2*x) * (20 - 2*x)
