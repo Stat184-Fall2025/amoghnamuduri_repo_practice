@@ -1,4 +1,4 @@
-# 📄 Activity 14 — Data Wrangling, Visualization, and Reflection
+# Activity 14 — Data Wrangling, Visualization, and Reflection
 ### README File  
 Author: **Amogh Krishna Namuduri**  
 Date: **11/16/2027**
